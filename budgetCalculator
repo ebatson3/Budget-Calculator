@@ -1,0 +1,83 @@
+class BudgetItem {
+
+    constructor() {
+        this.monthlyExpense = [];
+        this.monthlyIncome = [];
+        this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "next year"];
+
+    }
+
+    setMonthlyExpense(array) {
+        for (let element of array) {
+            this.monthlyExpense.push(element);
+        }
+
+    }
+
+    setMonthlyIncome(array) {
+        for (let element of array) {
+            this.monthlyIncome.push(element);
+        }
+
+    }
+
+
+    movingExpense() {
+        let expenseN = [];
+        let incomeN = [];
+        let debt = 0;
+        let extraIncome = 0;
+        console.log("MONTHLY OVERVIEWS: \n");
+        for (let month = 0; month < this.months.length; month++) {
+
+            if (this.monthlyExpense[month] > this.monthlyIncome[month]) {
+                console.log(this.months[month] + ": Your monthly income was " + "($" + this.monthlyIncome[month] + ")" + " Oh no! That was less than your expenses of " + "($" + this.monthlyExpense[month] + ")");
+                expenseN.push(this.monthlyExpense[month] - this.monthlyIncome[month]);
+                this.monthlyExpense[month + 1] += expenseN[month];
+                console.log("Your lost:" + "($" + expenseN[month] + ")" + " in " + this.months[month] + ", this will be taken from " + this.months[month +1] + "'s budget");
+                incomeN.push(0);
+
+
+            }
+
+            else if (this.monthlyExpense[month] < this.monthlyIncome[month]) {
+                console.log(this.months[month] + ": Your monthly income was " + "($" + this.monthlyIncome[month] + ")." + " Awesome! That was more than your expenses of " + "($" + this.monthlyExpense[month] + ")");
+                incomeN.push(this.monthlyIncome[month] - this.monthlyExpense[month]);
+                this.monthlyIncome[month + 1] += incomeN[month]
+                console.log("You saved: " + "($" + incomeN[month] + ")" + " in " + this.months[month] + ",  it will be put towards " + this.months[month +1] + "'s expenses!");
+                expenseN.push(0);
+
+
+            }
+
+            else{
+                incomeN.push(0);
+                expenseN.push(0);
+
+            }
+
+        }
+        console.log('\n' + "YEAR OVERVIEW:");
+
+        if (expenseN[expenseN.length-1] > 0) {
+            console.log("Your debt owed is: $" + expenseN[expenseN.length-1]);
+            console.log("You did NOT save money this year! Good luck saving next year!");
+        }
+
+        else {
+            console.log("Great job! You saved money this year! \nYour extra income was: $" + incomeN[incomeN.length-1]);
+        }
+
+
+    }
+}
+
+let income =[2050,1050,1550,400,650,1250,6000,1250,6050,450,650,8050];
+let expense = [2000,1000,1600,450,700,1300,5000,1400,6000,500,700,8000];
+
+let budgetObject = new BudgetItem();
+
+
+budgetObject.setMonthlyExpense(expense);
+budgetObject.setMonthlyIncome(income);
+budgetObject.movingExpense()
